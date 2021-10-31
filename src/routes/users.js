@@ -13,10 +13,10 @@ router.get('/users', (req, res) => {
     });
 });
 
-//Get an user
+//Get an user by id
 router.get('/users/:id', (req, res) => {
     const { id } = req.params;
-    con.query('SELECT * from users where id_user = ?', [id], (err, rows, fields) => {
+    con.query('SELECT * from users where id = ?', [id], (err, rows, fields) => {
         if(!err){
             res.json(rows[0]);
         } else {
@@ -24,6 +24,19 @@ router.get('/users/:id', (req, res) => {
         }
     });
 });
+
+//Get an user by username
+router.get('/users/:username', (req, res) => {
+    const { username } = req.params;
+    con.query('SELECT * from users where username = ?', [username], (err, rows, fields) => {
+        if(!err){
+            res.json(rows[0]);
+        } else {
+            console.log(err);
+        }
+    });
+});
+
 
 //Delete an user
 router.delete('/users/:id', (req, res) => {
