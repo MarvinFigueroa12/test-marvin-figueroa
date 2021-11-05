@@ -1,4 +1,5 @@
 const Document = require('../models/documentsModel');
+const errors = require('../controllers/error');
 
 exports.getAllDocuments = async (req, res, next) => {
     try {
@@ -24,12 +25,33 @@ exports.getDocumentById = async (req, res, next) => {
     }
 };
 
-//Insert
+exports.postDocument = async (req, res, next) => {
+    try {
+        if(req.body.id_document = null){
+            errors.get400();
+        }else{
+            const [postResponse] = await Document.post(req.body.id_document, req.body.document_name, req.body.url, req.body.date_of_creation, req.body.id_user, req.body.content, req.body.id_category);
+        await Document.recordDocument(req.body.id_document, req.body.document_name, req.body.date_of_creation, req.body.content, req.body.id_document);
+        await Document.userDocument(req.body.id_document, req.body.id_document, req.body.id_user);
+        res.status(201).json(postResponse);
+        }
+        
+    } catch (err) {
+        if (!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
 
 exports.putDocument = async (req, res, next) => {
     try {
-        const [putResponse] = await Document.update(req.body.id_document, req.body.content);
-        res.status(201).json(putResponse);
+        if(req.body.id_document = null){
+            errors.get400();
+        }else{
+            const [putResponse] = await Document.update(req.body.id_document, req.body.content);
+            res.status(201).json(putResponse);
+        }
     } catch (err) {
         if (!err.statusCode){
             err.statusCode = 500;

@@ -25,9 +25,6 @@ app.use('/', recordsRoutes);
 app.use('/', userdocumentRoutes);
 app.use(errorController.get404);
 app.use(errorController.get500);
-/*
-
-app.use(require('./src/routes/user_document'));*/
 
 //Server
 app.listen(app.get('port'), () => {

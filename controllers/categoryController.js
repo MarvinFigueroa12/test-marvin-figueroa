@@ -1,4 +1,5 @@
 const Category = require('../models/categoryModel');
+const errors = require('../controllers/error');
 
 exports.getAllCategories = async (req, res, next) => {
     try {
@@ -26,8 +27,12 @@ exports.getCategoryById = async (req, res, next) => {
 
 exports.postCategory = async (req, res, next) => {
     try {
-        const [postResponse] = await Category.post(req.body.id_category, req.body.categry);
-        res.status(201).json(postResponse);
+        if(req.body.id_category = null){
+            errors.get400();
+        }else{
+            const [postResponse] = await Category.post(req.body.id_category, req.body.categry);
+            res.status(201).json(postResponse);
+        }
     } catch (err) {
         if (!err.statusCode){
             err.statusCode = 500;
@@ -38,8 +43,12 @@ exports.postCategory = async (req, res, next) => {
 
 exports.putCategory = async (req, res, next) => {
     try {
-        const [putResponse] = await Category.update(req.body.id_category, req.body.category);
-        res.status(201).json(putResponse);
+        if(req.body.id_category = null){
+            errors.get400();
+        }else{
+            const [putResponse] = await Category.update(req.body.id_category, req.body.category);
+            res.status(201).json(putResponse);
+        }
     } catch (err) {
         if (!err.statusCode){
             err.statusCode = 500;

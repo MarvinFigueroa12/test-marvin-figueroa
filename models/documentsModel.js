@@ -1,4 +1,4 @@
-const dataB = require('../util/database');
+const dataB = require('../database/database');
 
 module.exports = class Document{
     constructor(id_document, document_name, url, date_of_creation, id_user, content, id_category){
@@ -19,7 +19,9 @@ module.exports = class Document{
         return dataB.execute('SELECT * from documents where id_document = ?', [id_document]);
     }
 
-    //Insert
+    static post(id_document, document_name, url, date_of_creation, id_user, content, id_category){
+        return dataB.execute('INSERT INTO documents (id_document, document_name, url, date_of_creation, id_user, content, id_category ) VALUES (?,?,?,?,?,?,?)', [id_document, document_name, url, date_of_creation, id_user, content, id_category]);
+    }
 
     static update(id_document, content){
         return dataB.execute('CALL userAddorEdit(?,?)', [id_document, content]);
@@ -27,5 +29,13 @@ module.exports = class Document{
 
     static delete(id_document){
         return dataB.execute('DELETE FROM documents WHERE id_document = ?', [id_document]);
+    }
+
+    static recordDocument(id_record, document_name, edit_date, content, id_document){
+        return dataB.execute('INSERT INTO record (id_record, document_name, edit_date, content, id_document ) VALUES (?,?,?,?,?)', [id_record, document_name, edit_date, content, id_document]);
+    }
+
+    static userDocument(id, id_document, id_user){
+        return dataB.execute('INTO user_document (id, id_document, id_user ) VALUES (?,?,?)', [id, id_document, id_user]);
     }
 };

@@ -4,6 +4,12 @@ exports.get404 = (req, res, next) => {
     next(error)
 };
 
+exports.get400 = (req, res, next) => {
+    const error = new Error('Bad Request');
+    error.status = 400;
+    next(error)
+};
+
 exports.get500 = (error, req, res, next) => {
     res.status(error.status || 500);
     res.json({
