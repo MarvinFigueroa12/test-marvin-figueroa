@@ -17,7 +17,9 @@ exports.getAllDocuments = async (req, res, next) => {
 exports.getDocumentById = async (req, res, next) => {
     try {
         const [documentById] = await Document.fetchById(req.params.id_document);
-        res.status(200).json(formatterFunction(200, {document: documentById}));
+        const [id] = await Document.Id(req.params.id_document);
+        const [relationship] = await Document.relationships(req.params.id_document);
+        res.status(200).json(formatterFunction(200, {document: {id: id, attributes: documentById, retationships: relationship}}));
     } catch (err) {
         if (!err.statusCode){
             err.statusCode = 500;

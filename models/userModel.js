@@ -25,4 +25,5 @@ module.exports = class User{
     static delete(id_user){
         return dataB.execute('DELETE from users where id_user = ?', [id_user]);
     }
+
 };

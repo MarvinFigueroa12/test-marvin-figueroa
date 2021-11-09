@@ -16,7 +16,7 @@ module.exports = class Document{
     }
 
     static fetchById(id_document){
-        return dataB.execute('SELECT * from documents where id_document = ?', [id_document]);
+        return dataB.execute('SELECT document_name, url, date_of_creation, content from documents where id_document = ?', [id_document]);
     }
 
     static post(id_document, document_name, url, date_of_creation, id_user, content, id_category){
@@ -37,5 +37,13 @@ module.exports = class Document{
 
     static userDocument(id, id_document, id_user){
         return dataB.execute('INTO user_document (id, id_document, id_user ) VALUES (?,?,?)', [id, id_document, id_user]);
+    }
+    
+    static Id(id_document){
+        return dataB.execute('SELECT id_document from documents where id_document = ?', [id_document]);
+    }
+
+    static relationships(id_document){
+        return dataB.execute('SELECT documents.id_category, category.category from documents inner join category on documents.id_category = category.id_category where documents.id_document = ?', [id_document]);
     }
 };
